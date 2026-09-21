@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KURODA VISUAL 9</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #faf7f9;
+  color: #222;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    "Noto Sans JP",
+    sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+.header {
+  padding: 28px 20px 18px;
+  text-align: center;
+}
+
+.logo {
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: #b48a9e;
+  font-weight: bold;
+}
+
+h1 {
+  margin: 8px 0;
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  color: #777;
+  font-size: 13px;
+}
+
+.screen {
+  display: none;
+  max-width: 680px;
+  margin: auto;
+  padding: 20px;
+}
+
+.screen.active {
+  display: block;
+}
+
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 8px 30px rgba(60, 30, 45, 0.08);
+}
+
+.center {
+  text-align: center;
+}
+
+.start-button,
+.next-button,
+.reset-button {
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 15px;
+  margin-top: 18px;
+  background: #222;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.start-button {
+  background: #c995ad;
+}
+
+.back-button {
+  border: none;
+  background: none;
+  color: #888;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.progress {
+  color: #b48a9e;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.question {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 12px 0 22px;
+  text-align: center;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.photo-card {
+  position: relative;
+  border: 3px solid transparent;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #eee;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.photo-card.selected {
+  border-color: #d18baa;
+  transform: translateY(-3px);
+}
+
+.photo-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.photo-number {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  background: rgba(0,0,0,.65);
+  color: white;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.choice-card {
+  border: 3px solid transparent;
+  border-radius: 22px;
+  overflow: hidden;
+  background: white;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.choice-card:hover {
+  transform: translateY(-3px);
+}
+
+.choice-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.choice-label {
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.result-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 18px rgba(0,0,0,.07);
+}
+
+.result-card img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+}
+
+.rank {
+  padding: 7px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.rank span {
+  color: #c78aa4;
+}
+
+.small {
+  font-size: 12px;
+  color: #888;
+  line-height: 1.7;
+}
+
+@media (max-width: 430px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  .screen {
+    padding: 14px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .photo-grid {
+    gap: 8px;
+  }
+
+  .choice-grid {
+    gap: 8px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">KURODA VISUAL 9</div>
+  <h1>黒田くん<br>好きビジュ9選</h1>
+  <div class="subtitle">あなたの「好き」を直感で選んでね 🖤</div>
+</header>
+
+<!-- START -->
+<section id="start" class="screen active">
+  <div class="card center">
+    <h2>🖤 KURODA VISUAL 9</h2>
+
+    <p>
+      黒田くんの好きビジュ候補から<br>
+      あなたのTOP9を決めよう！
+    </p>
+
+    <p class="small">
+      推しランキングではなく、<br>
+      「このビジュが好き！」を直感で選ぶ方式です。
+    </p>
+
+    <button class="start-button" onclick="startPreliminary()">
+      予選をはじめる
+    </button>
+  </div>
+</section>
+
+
+<!-- PRELIMINARY -->
+<section id="preliminary" class="screen">
+  <div class="card">
+
+    <div class="progress" id="prelimProgress"></div>
+
+    <h2 class="question">
+      この中で好きなビジュを選んでね
+    </h2>
+
+    <p class="small center">
+      複数選択OK！直感でどうぞ🖤
+    </p>
+
+    <div id="prelimGrid" class="photo-grid"></div>
+
+    <button class="next-button" onclick="nextPreliminary()">
+      次へ →
+    </button>
+
+  </div>
+</section>
+
+
+<!-- MAIN INTRO -->
+<section id="mainIntro" class="screen">
+  <div class="card center">
+
+    <div class="logo">MAIN ROUND</div>
+
+    <h1>本選</h1>
+
+    <p>
+      ここからは候補同士を<br>
+      直接比べていきます。
+    </p>
+
+    <p class="small">
+      2つのビジュから、より好きな方をタップしてね。
+    </p>
+
+    <button class="start-button" onclick="startMainRound()">
+      本選スタート
+    </button>
+
+  </div>
+</section>
+
+
+<!-- MAIN -->
+<section id="main" class="screen">
+  <div class="card">
+
+    <div class="progress" id="mainProgress"></div>
+
+    <h2 class="question">
+      どっちのビジュが好き？
+    </h2>
+
+    <div id="mainChoices" class="choice-grid"></div>
+
+  </div>
+</section>
+
+
+<!-- LAST -->
+<section id="lastIntro" class="screen">
+  <div class="card center">
+
+    <div class="logo">LAST BATTLE</div>
+
+    <h1>最終戦</h1>
+
+    <p>
+      TOP9候補をさらに絞ります。
+    </p>
+
+    <p class="small">
+      ここからも二択で直感勝負！
+    </p>
+
+    <button class="start-button" onclick="startLastRound()">
+      最終戦スタート
+    </button>
+
+  </div>
+</section>
+
+
+<section id="last" class="screen">
+  <div class="card">
+
+    <div class="progress" id="lastProgress"></div>
+
+    <h2 class="question">
+      どっちのビジュが好き？
+    </h2>
+
+    <div id="lastChoices" class="choice-grid"></div>
+
+  </div>
+</section>
+
+
+<!-- FINAL -->
+<section id="finalIntro" class="screen">
+  <div class="card center">
+
+    <div class="logo">FINAL ROUND</div>
+
+    <h1>決勝 👑</h1>
+
+    <p>
+      ここからは完全二択！
+    </p>
+
+    <p class="small">
+      あなたの好きビジュTOP9を<br>
+      1位から9位まで決めます。
+    </p>
+
+    <button class="start-button" onclick="startFinalRound()">
+      決勝スタート
+    </button>
+
+  </div>
+</section>
+
+
+<section id="final" class="screen">
+  <div class="card">
+
+    <div class="progress" id="finalProgress"></div>
+
+    <h2 class="question">
+      どっちのビジュが好き？
+    </h2>
+
+    <div id="finalChoices" class="choice-grid"></div>
+
+  </div>
+</section>
+
+
+<!-- RESULT -->
+<section id="result" class="screen">
+  <div class="card">
+
+    <div class="center">
+      <div class="logo">YOUR KURODA VISUAL 9</div>
+      <h1>好きビジュ TOP9 👑</h1>
+      <p class="small">
+        あなたが選んだ黒田くんの好きビジュ9選
+      </p>
+    </div>
+
+    <div id="resultGrid" class="result-grid"></div>
+
+    <button class="reset-button" onclick="location.reload()">
+      もう一度やる
+    </button>
+
+  </div>
+</section>
+
+
+<script>
+
+/* =========================
+   写真データ
+   ========================= */
+
+/*
+  ここをあとで自分の写真に変更できます。
+
+  例：
+  images/001.jpg
+  images/002.jpg
+  images/003.jpg
+
+  現在は50枚。
+  100枚にしたい場合は同じ形式で追加してください。
+*/
+
+const photos = [];
+
+for (let i = 1; i <= 50; i++) {
+  photos.push({
+    id: i,
+    src: `images/${String(i).padStart(3, "0")}.jpg`
+  });
+}
+
+
+/* =========================
+   状態
+   ========================= */
+
+let preliminaryGroups = [];
+let prelimIndex = 0;
+let selectedPrelim = [];
+
+let candidates = [];
+
+let mainRound = 0;
+let mainPairs = [];
+let mainIndex = 0;
+
+let lastPairs = [];
+let lastIndex = 0;
+
+let finalCandidates = [];
+let finalRankings = [];
+
+
+/* =========================
+   画面切り替え
+   ========================= */
+
+function showScreen(id) {
+
+  document.querySelectorAll(".screen")
+    .forEach(el => el.classList.remove("active"));
+
+  document.getElementById(id)
+    .classList.add("active");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+/* =========================
+   予選
+   ========================= */
+
+function startPreliminary() {
+
+  preliminaryGroups = [];
+
+  for (let i = 0; i < photos.length; i += 4) {
+    preliminaryGroups.push(
+      photos.slice(i, i + 4)
+    );
+  }
+
+  prelimIndex = 0;
+  selectedPrelim = [];
+
+  showScreen("preliminary");
+  renderPreliminary();
+}
+
+
+function renderPreliminary() {
+
+  const group = preliminaryGroups[prelimIndex];
+
+  document.getElementById("prelimProgress").textContent =
+    `PRELIMINARY ${prelimIndex + 1} / ${preliminaryGroups.length}`;
+
+  const grid = document.getElementById("prelimGrid");
+
+  grid.innerHTML = "";
+
+  group.forEach(photo => {
+
+    const card = document.createElement("div");
+
+    card.className = "photo-card";
+
+    card.innerHTML = `
+      <span class="photo-number">${photo.id}</span>
+      <img src="${photo.src}"
+           alt="黒田くんビジュ ${photo.id}"
+           onerror="this.style.background='#e8e1e5';">
+    `;
+
+    card.onclick = () => {
+
+      if (selectedPrelim.includes(photo.id)) {
+
+        selectedPrelim =
+          selectedPrelim.filter(id => id !== photo.id);
+
+        card.classList.remove("selected");
+
+      } else {
+
+        selectedPrelim.push(photo.id);
+
+        card.classList.add("selected");
+      }
+    };
+
+    grid.appendChild(card);
+  });
+}
+
+
+function nextPreliminary() {
+
+  const group = preliminaryGroups[prelimIndex];
+
+  selectedPrelim.forEach(id => {
+
+    const photo = group.find(p => p.id === id);
+
+    if (photo && !candidates.some(p => p.id === photo.id)) {
+      candidates.push(photo);
+    }
+
+  });
+
+  prelimIndex++;
+
+  selectedPrelim = [];
+
+  if (prelimIndex < preliminaryGroups.length) {
+
+    renderPreliminary();
+
+  } else {
+
+    /*
+      候補が少なすぎる場合は
+      予選で選ばれなかった写真も追加。
+    */
+
+    if (candidates.length < 18) {
+
+      const remaining =
+        photos.filter(
+          p => !candidates.some(c => c.id === p.id)
+        );
+
+      candidates.push(
+        ...remaining.slice(0, 18 - candidates.length)
+      );
+
+    }
+
+    showScreen("mainIntro");
+  }
+}
+
+
+/* =========================
+   本選
+   ========================= */
+
+function startMainRound() {
+
+  mainRound = 0;
+
+  createMainPairs();
+
+  showScreen("main");
+
+  renderMain();
+}
+
+
+function createMainPairs() {
+
+  mainPairs = [];
+
+  let pool = [...candidates];
+
+  /*
+    候補をシャッフル
+  */
+
+  pool.sort(() => Math.random() - 0.5);
+
+  for (let i = 0; i < pool.length - 1; i += 2) {
+
+    mainPairs.push([
+      pool[i],
+      pool[i + 1]
+    ]);
+
+  }
+
+  mainIndex = 0;
+}
+
+
+function renderMain() {
+
+  if (mainIndex >= mainPairs.length) {
+
+    mainRound++;
+
+    if (mainRound < 3) {
+
+      createMainPairs();
+
+    } else {
+
+      candidates =
+        [...candidates]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, Math.min(18, candidates.length));
+
+      showScreen("lastIntro");
+      return;
+    }
+  }
+
+  document.getElementById("mainProgress").textContent =
+    `MAIN ROUND ${mainRound + 1} / 3　${mainIndex + 1} / ${mainPairs.length}`;
+
+  renderChoices(
+    "mainChoices",
+    mainPairs[mainIndex],
+    chooseMain
+  );
+}
+
+
+function chooseMain(photo) {
+
+  /*
+    選ばれた写真を前方に移動。
+    これを3ROUND繰り返して候補を整理。
+  */
+
+  candidates =
+    [photo, ...candidates.filter(p => p.id !== photo.id)];
+
+  mainIndex++;
+
+  renderMain();
+}
+
+
+/* =========================
+   最終戦
+   ========================= */
+
+function startLastRound() {
+
+  candidates =
+    candidates.slice(0, Math.min(18, candidates.length));
+
+  lastPairs = [];
+
+  for (let i = 0; i < candidates.length - 1; i += 2) {
+
+    lastPairs.push([
+      candidates[i],
+      candidates[i + 1]
+    ]);
+
+  }
+
+  lastIndex = 0;
+
+  showScreen("last");
+
+  renderLast();
+}
+
+
+function renderLast() {
+
+  if (lastIndex >= lastPairs.length) {
+
+    finalCandidates =
+      [...candidates]
+      .slice(0, Math.min(18, candidates.length));
+
+    showScreen("finalIntro");
+
+    return;
+  }
+
+  document.getElementById("lastProgress").textContent =
+    `LAST BATTLE　${lastIndex + 1} / ${lastPairs.length}`;
+
+  renderChoices(
+    "lastChoices",
+    lastPairs[lastIndex],
+    chooseLast
+  );
+}
+
+
+function chooseLast(photo) {
+
+  candidates =
+    [photo, ...candidates.filter(p => p.id !== photo.id)];
+
+  lastIndex++;
+
+  renderLast();
+}
+
+
+/* =========================
+   決勝
+   ========================= */
+
+function startFinalRound() {
+
+  finalCandidates =
+    [...candidates]
+    .slice(0, Math.min(18, candidates.length));
+
+  finalRankings = [];
+
+  showScreen("final");
+
+  nextFinal();
+}
+
+
+function nextFinal() {
+
+  /*
+    9位まで決めたら終了
+  */
+
+  if (
+    finalRankings.length >= 9 ||
+    finalCandidates.length === 0
+  ) {
+
+    showResult();
+
+    return;
+  }
+
+  /*
+    現在の候補から2枚を比較
+  */
+
+  if (finalCandidates.length === 1) {
+
+    finalRankings.push(
+      finalCandidates.shift()
+    );
+
+    nextFinal();
+
+    return;
+  }
+
+  const a = finalCandidates[0];
+  const b = finalCandidates[1];
+
+  document.getElementById("finalProgress").textContent =
+    `FINAL　${finalRankings.length + 1}位を決定中`;
+
+  renderChoices(
+    "finalChoices",
+    [a, b],
+    chooseFinal
+  );
+}
+
+
+function chooseFinal(photo) {
+
+  /*
+    選んだ方を順位確定。
+  */
+
+  finalRankings.push(photo);
+
+  finalCandidates =
+    finalCandidates.filter(
+      p => p.id !== photo.id
+    );
+
+  nextFinal();
+}
+
+
+/* =========================
+   二択表示
+   ========================= */
+
+function renderChoices(containerId, pair, callback) {
+
+  const container =
+    document.getElementById(containerId);
+
+  container.innerHTML = "";
+
+  pair.forEach(photo => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "choice-card";
+
+    card.innerHTML = `
+      <img src="${photo.src}"
+           alt="黒田くんビジュ ${photo.id}"
+           onerror="this.style.background='#e8e1e5';">
+      <div class="choice-label">
+        これが好き 🖤
+      </div>
+    `;
+
+    card.onclick = () => callback(photo);
+
+    container.appendChild(card);
+  });
+}
+
+
+/* =========================
+   結果
+   ========================= */
+
+function showResult() {
+
+  /*
+    TOP9が足りない場合、
+    残り候補から補充。
+  */
+
+  if (finalRankings.length < 9) {
+
+    const remaining =
+      photos.filter(
+        p => !finalRankings.some(r => r.id === p.id)
+      );
+
+    finalRankings.push(
+      ...remaining.slice(
+        0,
+        9 - finalRankings.length
+      )
+    );
+  }
+
+  finalRankings =
+    finalRankings.slice(0, 9);
+
+  const grid =
+    document.getElementById("resultGrid");
+
+  grid.innerHTML = "";
+
+  finalRankings.forEach((photo, index) => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "result-card";
+
+    card.innerHTML = `
+      <img src="${photo.src}"
+           alt="第${index + 1}位">
+      <div class="rank">
+        <span>${index + 1}位</span>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  showScreen("result");
+}
+
+</script>
+
+</body>
+</html>
